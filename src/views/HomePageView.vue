@@ -12,9 +12,10 @@
         <div class="row posts">
             <div class="col-md-12 d-flex justify-content-between p-3 align-items-center shadow my-3 "
                 v-for="post in posts" v-if="posts.length > 0">
-                <p>{{ post.name_uz }}</p>
-                <b>{{ post.cost }}</b>
-                <p class="text-mute">{{ post.address }}</p>
+                <p>Title: {{ post.name_uz }}</p>
+                <b>Cost: {{ post.cost }}</b>
+                <p class="text-mute">Address: {{ post.address }}</p>
+                <p class="text-mute">Published: {{ convertTime(post.created_date) }}</p>
                 <div>
                     <i class="fa-solid fa-trash pointer icons" @click="deleteFromList(post._id)"></i>
                     <i class="fa-regular fa-pen-to-square pointer icons" @click="getById(post._id)"></i>
@@ -38,10 +39,14 @@ import { getRequest, deleteRequest } from '../http/useHttp';
 import { converterToArray } from '../actions/customHandlers';
 import Modal from '../components/Modal.vue';
 import Jumbotron from '../components/Jumbotron.vue';
+import moment from 'moment';
 
 export default {
 
     methods: {
+        convertTime(date){
+          return  moment().fromNow(date);
+        },
         getById(id) {
             this.$store.dispatch('deliverObject', id)
             this.$store.dispatch('open')
